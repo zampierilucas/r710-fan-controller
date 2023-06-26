@@ -40,7 +40,7 @@ def ipmitool(args, host):
         return True
 
     try:
-        subprocess.check_output(cmd, timeout=15)
+        subprocess.check_output(cmd, timeout=1)
     except subprocess.CalledProcessError:
         print("\"{}\" command has returned a non-0 exit code".format(cmd), file=sys.stderr)
         return False
@@ -113,10 +113,10 @@ def parse_config():
         for host in config['hosts']:
             if 'hysteresis' not in list(host.keys()):
                 host['hysteresis'] = 0
-            if len(host['temperatures']) != 3:
-                raise ConfigError('Host "{}" has {} temperature thresholds instead of 3.'.format(host['name'], len(host['temperatures'])))
-            if len(host['speeds']) != 3:
-                raise ConfigError('Host "{}" has {} fan speeds instead of 3.'.format(host['name'], len(host['speeds'])))
+#            if len(host['temperatures']) != 3:
+#                raise ConfigError('Host "{}" has {} temperature thresholds instead of 3.'.format(host['name'], len(host['temperatures'])))
+#            if len(host['speeds']) != 3:
+#                raise ConfigError('Host "{}" has {} fan speeds instead of 3.'.format(host['name'], len(host['speeds'])))
             if ('remote_temperature_command' in list(host.keys()) or 'remote_ipmi_credentials' in list(host.keys())) and \
                     ('remote_temperature_command' not in list(host.keys()) or 'remote_ipmi_credentials' not in list(host.keys())):
                 raise ConfigError('Host "{}" must specify either none or both "remote_temperature_command" and "remote_ipmi_credentials" keys.'.format(host['name']))
